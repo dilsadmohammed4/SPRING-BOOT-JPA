@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.springboot.jpa.entities.Course;
+import com.springboot.jpa.entities.Student;
+import com.springboot.jpa.entities.Teacher;
 
 @SpringBootTest
 public class CourseRepositoryTest {
@@ -59,5 +61,29 @@ public class CourseRepositoryTest {
                 firstPageTenRecords).getContent();
 
         System.out.println("courses = " + courses);
+    }
+
+    @Test
+    public void saveCourseWithStudentAndTeacher() {
+
+        Teacher teacher = Teacher.builder()
+                .firstName("Manoj")
+                .lastName("Sarmah")
+                .build();
+
+        Student student = Student.builder()
+                .emailId("dipesh@gmail.com")
+                .firstName("Dipesh")
+                .lastName("Jain")
+                .build();
+
+        Course course = Course.builder()
+                .title("DBMS")
+                .credit("4")
+                .teacher(teacher)
+                .build();
+
+        course.addStudent(student);
+        courseRepository.save(course);
     }
 }
